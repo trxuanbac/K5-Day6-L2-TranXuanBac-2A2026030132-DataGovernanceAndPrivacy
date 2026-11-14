@@ -1,2 +1,2 @@
 member,git_author_name,git_email,role,modules_files,commit_shas,evidence_note,presenter
-Trần Xuân Bắc,Xuân Bắc,Bxuan964@gmail.com,Individual learner,src/t02.py;src/pipeline.py;src/baseline_t02.py;tests/test_t02_pipeline.py;reports/;demo/,,See git log for implementation commit; GT and OOD evaluation pending,
+Trần Xuân Bắc,Xuân Bắc,Bxuan964@gmail.com,Individual learner,src/t02.py;src/pipeline.py;src/baseline_t02.py;tests/test_t02_pipeline.py;reports/;demo/,780c1e9,Implementation and tests committed; official GT and OOD evaluation pending,

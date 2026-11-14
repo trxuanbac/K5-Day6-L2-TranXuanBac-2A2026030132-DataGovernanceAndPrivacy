@@ -28,3 +28,5 @@
 - [ ] Ảnh ngoài miền: người học xác nhận chưa có nguồn ảnh.
 
 Thống kê counts/runtime không phải độ chính xác. Chưa khẳng định PoC tốt hơn baseline.
+
+- [x] Commit triển khai: `780c1e9`, author Xuân Bắc <Bxuan964@gmail.com>. Chưa push hoặc tạo tag nộp bài.

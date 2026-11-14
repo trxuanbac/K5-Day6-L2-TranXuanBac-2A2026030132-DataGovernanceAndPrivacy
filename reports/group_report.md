@@ -125,7 +125,7 @@ Tests kiểm dev-only calibration, dark/glare signal, path/ID/ảnh lỗi, revie
 score bất biến sau override, escalation HOLD, review sai manifest bị bỏ qua và idempotency.
 Kết quả suite cuối cùng ghi trong PROGRESS.md. Test cần GT được skip đúng thiết kế.
 Machine, CPU, Python, runtime, seed, config hash và git SHA lấy từ run_info.json của mỗi run.
-SHA hiện tại là commit gốc, không thay cho bằng chứng commit các thay đổi chưa commit.
+Run_info của lần chạy trước commit lưu SHA gốc; commit triển khai là 780c1e9. Không coi SHA cũ trong run_info là bằng chứng code mới.
 
 ## 09. Giới hạn và hướng cải tiến
 
@@ -137,7 +137,7 @@ Không tuyên bố tuân thủ pháp luật từ pipeline QC, không đưa ảnh
 
 ## 10. Đóng góp
 
-Trần Xuân Bắc thực hiện cá nhân. Bằng chứng commit/email/tag cần người học xác nhận và bổ sung;
+Trần Xuân Bắc thực hiện cá nhân. Commit triển khai: 780c1e9; Git author Xuân Bắc <Bxuan964@gmail.com>. Tag nộp bài chưa tạo;
 không dùng commit tác giả starter làm bằng chứng đóng góp cá nhân, không tạo commit/tag giả.
 Chi tiết file ở reports/team_contributions.csv. Phần còn lại trong PROGRESS.md.
 
