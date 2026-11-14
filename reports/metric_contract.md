@@ -1,24 +1,26 @@
-# Metric contract (khai báo bắt buộc — chốt ở phút 30, trước khi chạy eval)
+# T02 — Metric contract
 
-> Các metric chuẩn đã được cài trong `src/metrics/tracks.py`. File này là nơi nhóm **cam kết** cách dùng chúng.
-> Không đổi testset, threshold hay trọng số sau khi đã thấy kết quả eval.
-
-| Mục | Khai báo của nhóm |
+| Mục | Khai báo |
 |---|---|
-| Track | T__ |
-| Primary metric (tên đúng như evaluator in ra) | |
-| Tăng tốt hay giảm tốt? | higher / lower |
-| Đơn vị đánh giá (image / region / pair / release / batch / case …) | |
-| Công thức + numerator / denominator | |
-| Cách ghép prediction ↔ GT (IoU? id? tolerance?) | |
-| Candidate pool cố định | |
-| Review budget B / K | |
-| Seed | 42 |
-| Threshold policy (chọn trên dev như thế nào) | |
-| Eval split (không dùng để tune) | |
-| Chỉ số lỗi xấu (miss / false alarm / false reject) | |
-| Slices sẽ báo cáo (≥2) | |
-| Cách báo độ bất định khi N nhỏ (Wilson CI / bootstrap) | |
-| Ngày giờ chốt + người chốt | |
+| Track | T02 Raw QC Triage |
+| Primary | Defect Recall@B, higher |
+| Unit | image, join bằng image_id |
+| Numerator | GT defects trong top20 của split eval |
+| Denominator | Toàn bộ GT defects trong split eval |
+| Secondary | Precision@B; false alarm theo light; defect-type accuracy; runtime/100 ảnh |
+| Budget | B=20, seed=42 |
+| Pool | fixtures/t02_raw_qc; split và scene do fixture cung cấp, không thay testset |
+| Split fit | Chỉ dev cho quantile và normalization camera/light |
+| Eval | Mặc định split eval; hidden eval do giảng viên giữ |
+| Baseline | Score=1/(Laplacian variance+1e-6), một threshold global quantile 0.25 trên dev |
+| PoC | Blur theo camera/light nếu dev group >=6, fallback global; dark, glare ROI và blockiness |
+| Threshold | dark_mean=35; dark_fraction=.75; glare_fraction=.20; compression_ratio=1.8; defect_threshold=.5 |
+| Ranking | Score liên tục, descending; không sửa score bằng review |
+| Review | 20 ảnh của queue Laplacian cũ, giữ cố định cho hai run; không dùng làm gold heldout |
+| Slices | light=day/dusk/night; defect_type từ GT khi có; camera hỗ trợ phân tích nội bộ |
+| Uncertainty | Báo numerator/denominator, từng failure case, không suy rộng khi N nhỏ; chưa có CI GT |
+| Trạng thái | Chưa xem GT; official metric pending; tham số ban đầu được khai báo trước official eval |
+| Người phụ trách | Trần Xuân Bắc; ngày xác nhận chốt protocol: người học xác nhận trước chấm |
 
-Nếu baseline = 0 thì ghi rõ "baseline = 0" thay vì phần trăm cải thiện.
+Review đã thực hiện trước khi viết PoC; không dùng các nhãn review để tìm tham số tối ưu.
+Thống kê descriptive trong t02_run_summary.json không thay thế Defect Recall/Precision.

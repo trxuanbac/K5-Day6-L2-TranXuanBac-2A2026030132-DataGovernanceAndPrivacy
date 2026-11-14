@@ -1,0 +1,21 @@
+rank,item_id,score,reason,suggested_action,slice,evidence_path,reviewer,reviewer_decision,override_value,review_note,reviewed_at
+1,img_09_2,0.60178,low_global_laplacian_variance,REVIEW,day,images/img_09_2.jpg,Trần Xuân Bắc,edit,RECAPTURE,"Ảnh quá mờ, khó nhận biết chi tiết vật thể, cần chụp lại.",2026-11-14T08:49:15.838Z
+2,img_21_2,0.559617,low_global_laplacian_variance,REVIEW,day,images/img_21_2.jpg,Trần Xuân Bắc,edit,RECAPTURE,"Ảnh quá mờ, khó nhận biết chi tiết vật thể, cần chụp lại.",2026-11-14T08:49:15.838Z
+3,img_18_3,0.549756,low_global_laplacian_variance,REVIEW,night,images/img_18_3.jpg,Trần Xuân Bắc,edit,RECAPTURE,"Ảnh quá mờ, khó nhận biết chi tiết vật thể, cần chụp lại.",2026-11-14T08:49:15.838Z
+4,img_13_3,0.537857,low_global_laplacian_variance,REVIEW,night,images/img_13_3.jpg,Trần Xuân Bắc,edit,RECAPTURE,"Ảnh quá mờ, khó nhận biết chi tiết vật thể, cần chụp lại.",2026-11-14T08:49:15.838Z
+5,img_15_2,0.523995,low_global_laplacian_variance,REVIEW,dusk,images/img_15_2.jpg,Trần Xuân Bắc,edit,RECAPTURE,"Ảnh quá mờ, khó nhận biết chi tiết vật thể, cần chụp lại.",2026-11-14T08:49:15.838Z
+6,img_04_3,0.293558,low_global_laplacian_variance,REVIEW,dusk,images/img_04_3.jpg,Trần Xuân Bắc,edit,KEEP,"Đã kiểm tra ảnh gốc: hơi mờ nhưng vẫn phân biệt được xe, người và làn đường; giữ để nhận diện tổng thể.",2026-11-14T08:49:15.838Z
+7,img_07_3,0.216659,low_global_laplacian_variance,REVIEW,day,images/img_07_3.jpg,Trần Xuân Bắc,edit,KEEP,"Ảnh hơi mềm nhưng vẫn phân biệt được người, xe và làn đường.",2026-11-14T08:49:15.838Z
+8,img_11_3,0.208501,low_global_laplacian_variance,REVIEW,day,images/img_11_3.jpg,Trần Xuân Bắc,edit,KEEP,"Vẫn nhận biết được xe, người và vạch đường; ảnh còn dùng được.",2026-11-14T08:49:15.838Z
+9,img_19_3,0.205421,low_global_laplacian_variance,REVIEW,day,images/img_19_3.jpg,Trần Xuân Bắc,edit,KEEP,"Phân biệt được các xe, người và vị trí trên đường; giữ ảnh cho nhận diện tổng thể.",2026-11-14T08:49:15.838Z
+10,img_16_2,0.190509,low_global_laplacian_variance,REVIEW,day,images/img_16_2.jpg,Trần Xuân Bắc,edit,KEEP,Ảnh hơi mờ nhưng vẫn nhận biết được xe phía trước và người bên đường.,2026-11-14T08:49:15.838Z
+11,img_14_2,0.173029,low_global_laplacian_variance,REVIEW,day,images/img_14_2.jpg,Trần Xuân Bắc,edit,KEEP,"Các xe và người vẫn tách biệt, đủ nhận diện tổng thể dù chi tiết nhỏ bị mềm.",2026-11-14T08:49:15.838Z
+12,img_00_3,0.16775,low_global_laplacian_variance,REVIEW,day,images/img_00_3.jpg,Trần Xuân Bắc,edit,KEEP,"Vẫn thấy rõ vị trí xe, người và làn đường; giữ để nhận diện tổng thể.",2026-11-14T08:49:15.838Z
+13,img_15_3,0.06884,low_global_laplacian_variance,REVIEW,dusk,images/img_15_3.jpg,Trần Xuân Bắc,edit,RECAPTURE,"Ảnh tối , khó phân biệt chi tiết vật thể",2026-11-14T08:49:15.838Z
+14,img_12_3,0.02336,low_global_laplacian_variance,REVIEW,dusk,images/img_12_3.jpg,Trần Xuân Bắc,edit,RECAPTURE,"Ảnh tối , khó phân biệt chi tiết vật thể",2026-11-14T08:49:15.838Z
+15,img_17_3,0.021018,low_global_laplacian_variance,REVIEW,day,images/img_17_3.jpg,Trần Xuân Bắc,edit,RECAPTURE,"Ảnh tối , khó phân biệt chi tiết vật thể",2026-11-14T08:49:15.838Z
+16,img_23_3,0.020311,low_global_laplacian_variance,REVIEW,day,images/img_23_3.jpg,Trần Xuân Bắc,edit,RECAPTURE,"Ảnh tối , khó phân biệt chi tiết vật thể",2026-11-14T08:49:15.838Z
+17,img_12_0,0.00601,low_global_laplacian_variance,REVIEW,dusk,images/img_12_0.jpg,Trần Xuân Bắc,edit,KEEP,"Xe, người và vạch đường còn rõ trong điều kiện chạng vạng.",2026-11-14T08:49:15.838Z
+18,img_12_2,0.005478,low_global_laplacian_variance,REVIEW,dusk,images/img_12_2.jpg,Trần Xuân Bắc,edit,KEEP,Có nhiễu nén nhưng vẫn phân biệt được vật thể và vị trí.,2026-11-14T08:49:15.838Z
+19,img_09_0,0.005349,low_global_laplacian_variance,REVIEW,day,images/img_09_0.jpg,Trần Xuân Bắc,edit,KEEP,"Ảnh đủ sáng, các xe và người tách biệt rõ.",2026-11-14T08:49:15.838Z
+20,img_09_3,0.0051,low_global_laplacian_variance,REVIEW,day,images/img_09_3.jpg,Trần Xuân Bắc,edit,KEEP,Ảnh có nhiễu nhẹ nhưng vẫn dùng được để nhận diện tổng thể.,2026-11-14T08:49:15.838Z

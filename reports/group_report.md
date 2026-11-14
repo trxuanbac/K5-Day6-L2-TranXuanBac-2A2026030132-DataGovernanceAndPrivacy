@@ -1,133 +1,151 @@
-# Group Report — Day 06 Data Lab (Field-to-Release PoC)
+# T02 — Raw QC Triage: ảnh mờ, lóa và thiếu sáng
 
-> Điền đầy đủ, cụ thể, không viết chung chung. Mọi con số phải lấy từ file do script sinh ra
-> (`reports/metrics_*.json`, `reports/table1_baseline_vs_poc.md`) — không gõ tay, không làm tròn mất đơn vị.
-> 3–5 trang (hoặc README + report.md tương đương).
+## 00. Thông tin
 
-## 00 · Header
+- Người thực hiện: Trần Xuân Bắc, cá nhân; cấu hình nhóm G06.
+- Challenge: T02, xếp hạng ảnh nghi lỗi cho ngân sách review B=20.
+- Trạng thái: baseline và PoC chạy offline, đã nhập 20 review. Đã giải quyết escalation sau khi xem ảnh gốc; còn các ảnh cần RECAPTURE.
+- Mã nguồn và lệnh tái lập: docs/T02_RUN.md.
+- Repo: https://github.com/trxuanbac/K5-Day6-L2-TranXuanBac-2A2026030132-DataGovernanceAndPrivacy
+- Git author đang cấu hình: Xuân Bắc <Bxuan964@gmail.com>. Tag nộp bài chưa tạo.
 
-| Mục | Giá trị |
-|---|---|
-| Group ID | G__ |
-| Challenge | T__ · ______________________ |
-| Thành viên (5–6) + vai trò | 1. ____ (Lead/Integrator) · 2. ____ (Data & fixtures) · 3. ____ (Core algorithm) · 4. ____ (QA/metric) · 5. ____ (Review + report) · 6. ____ |
-| Git URL | ____ |
-| Tag `demo-180m` (commit) | ____ |
-| Tag `final-24h` (commit) | ____ |
-| Deadline (giờ VN) | ____ |
+## 01. Bài toán và tiêu chí quyết định
 
-## 01 · Problem statement
+Dữ liệu ảnh lỗi làm giảm chất lượng gán nhãn và mô hình phía sau. Khi chỉ đủ thời gian xem 20 ảnh,
+xếp hạng tốt giúp người kiểm tra tìm được nhiều lỗi hơn chọn ngẫu nhiên hoặc chỉ đo một đặc trưng.
+Ngược lại, loại mọi ảnh tối có thể làm mất các tình huống ban đêm hữu ích.
 
-- Ai bị ảnh hưởng / ai chịu hậu quả khi hệ thống sai? ____
-- Điểm nghẽn cụ thể: ____
-- Đầu vào → đầu ra: ____
-- Tiêu chí GO / HOLD / REWORK (chốt trước khi chạy eval): ____
-- Giả định của nhóm (cần DPO/legal/domain owner xác nhận): ____
+Input: ảnh và metadata. Output: image_id, score, loại lỗi gợi ý, action KEEP/RECAPTURE/REVIEW,
+hàng đợi review có ảnh, quyết định cuối và audit log.
 
-## 02 · Data & provenance
+- KEEP: còn đủ thông tin nhận diện tổng thể theo review.
+- RECAPTURE: chất lượng không đủ dùng theo heuristic hoặc quyết định reviewer.
+- REVIEW: cần xem thêm, không khẳng định ảnh hỏng.
+- HOLD cho toàn run nếu còn REVIEW; REWORK nếu có RECAPTURE mà không còn escalation.
+- Không tự GO chỉ vì toàn bộ model prediction là KEEP: cần chủ sở hữu phê duyệt release.
 
-| Split | N | Nguồn / link | License | Synthetic? |
-|---|---|---|---|---|
-| dev | | | | |
-| eval / heldout | | | | |
+## 02. Dữ liệu và provenance
 
-- Schema & class mapping: ____
-- Seed: 42 · Cách chia split (theo scene/group/segment?): ____
-- `manifest.csv` verified (sha256): có / không — lệnh: `python -m tools.verify_manifests`
-- Dữ liệu thật dùng (nếu có) và cách xây GT cho nó: ____
+Fixture synthetic CC0 theo manifest của repo: 96 ảnh 320×180 từ 24 cảnh gốc.
+Split do repo cung cấp theo cảnh, thực tế 56 dev và 40 eval; không thay đổi split.
+Metadata: image_id, path, camera_id, light, split. Không đọc tên biến thể ảnh để suy ra nhãn lỗi.
+Pipeline kiểm manifest SHA256; từ chối ảnh mất, ID trùng, đường dẫn ra ngoài input hoặc vào gt/.
+make verify kiểm toàn bộ 14 manifest. Không dùng ảnh thật, model pretrained hay API bên ngoài.
 
-## 03 · Research & design
+GT chính thức không phát trong repo học viên. 20 review đã lưu chỉ là can thiệp vận hành trên queue
+Laplacian cũ, bao gồm cả dev/eval; không phải gold set ngẫu nhiên hay heldout độc lập.
+Không dùng nhãn review để tối ưu trọng số, không báo độ chính xác tổng thể từ tập review bị chọn thiên lệch.
 
-- 2–3 references (URL + ngày xem) và **vì sao** chọn kỹ thuật: ____
-- Sơ đồ data flow (input → process → rank/QC → review → decision → report): ____
-- Thành phần offline (model/weights + checksum + license nếu có): ____
-- Trade-offs đã cân nhắc: ____
+## 03. Thiết kế và trade-off
 
-## 04 · Baseline vs PoC
+Pipeline 5 bước: load/provenance → feature scoring → rank top20 → review/override → decision/audit.
 
-- Baseline (mô tả, version/config, commit): ____
-- PoC (mô tả, version/config, commit): ____
-- Cùng budget / cùng heldout / cùng seed: xác nhận ____
+Baseline: phương sai Laplacian grayscale, score=1/(variance+1e-6), một ngưỡng global là quantile 0.25
+trên dev. Ngưỡng chỉ quyết định action; ranking liên tục không phụ thuộc review.
 
-**Bảng 1 · Baseline vs PoC & hard slices** — dán output của
-`python -m src.compare reports/metrics_baseline.json reports/metrics_poc.json`:
+PoC thêm:
 
-| Metric (unit) | Baseline | PoC | Δ & chú thích |
-|---|---|---|---|
-| Primary: ______ | ____ | ____ | ____; higher/lower? |
-| Hard-slice: ______ | ____ | ____ | ____; N=__ |
-| Review@B / miss / FP | ____ | ____ | ____; B=__ |
-| Runtime / 100 items | ____ | ____ | ____; CPU=__ |
+- Blur score dựa ngưỡng camera×light khi có ít nhất 6 ảnh dev, thiếu thì fallback global.
+- Dark score từ mean brightness và fraction pixel dưới 30.
+- Glare score từ tỷ lệ pixel trên 245 trong vùng tile 4×4; phát hiện vùng cháy sáng nhỏ hơn thống kê toàn ảnh.
+- JPEG blockiness proxy từ chênh lệch pixel tại ranh giới 8 pixel so với các vị trí còn lại.
 
-## 05 · Evaluation protocol
+Score là max của bốn score thành phần, mỗi score trong [0,1]. Defect threshold=.5.
+Các tham số đọc từ config và calibration.json lưu giá trị fit cùng N dev.
+Đây là heuristic có thể giải thích, chi phí CPU thấp; không có chứng cứ rằng max-score là tổ hợp tối ưu.
+Không tự chỉnh tham số theo kết quả eval. Một số feature bão hòa tạo tie; thứ tự được giữ ổn định.
 
-- Công thức primary metric, đơn vị đánh giá, TP/FP/FN, denominator: ____ (xem `reports/metric_contract.md`)
-- Threshold / budget B / K và lúc chốt: ____
-- Độ bất định (CI/bootstrap/variance) khi N nhỏ: ____
-- Lệnh evaluate chính xác: `python -m src.evaluate --track t__ --pred ... --out ...`
+## 04. Baseline vs PoC
 
-## 06 · Result slices
+Bảng thống kê được script sinh ở reports/table1_baseline_vs_poc.md, số liệu gốc ở t02_run_summary.json.
+Các dòng đếm KEEP/RECAPTURE và runtime không chứng minh độ chính xác hoặc mức cải thiện.
 
-| Slice | N | Baseline | PoC | Ghi chú |
-|---|---|---|---|---|
-| | | | | |
-| | | | | |
+Cả hai run dùng cùng 96 ảnh, dev calibration, seed42, budget20 và cùng file review.
+Review là tập cố định từ queue Laplacian cũ, không coi là review độc lập top20 PoC.
+Điểm xếp hạng không thay đổi sau override nên official score không bị chỉnh bằng nhãn review.
 
-- Failure case 1 (ảnh/metadata + root cause): ____
-- Failure case 2: ____
-- Latency / compute (máy, CPU, ms/item): ____
+Official Defect Recall@20 và Precision@20 đang chờ GT giảng viên. Chưa sinh metrics_baseline.json /
+metrics_poc.json bằng số giả, chưa khẳng định PoC thắng baseline.
+Khi có GT, chạy eval-baseline, eval-poc và compare theo hướng dẫn, báo cả kết quả âm/không cải thiện.
 
-## 07 · Human & decision
+## 05. Protocol đánh giá
 
-- Review queue (file, B, cách ưu tiên): ____
-- Cách override + audit log (`out/audit_log.jsonl`): ____
-- Decision policy + `reason_code` + owner: ____
-- Khi nào HOLD/REWORK thay vì tự động release: ____
+Primary = số ảnh lỗi GT trong top20 eval / tổng ảnh lỗi GT eval.
+Precision = số ảnh lỗi GT top20 / 20 (xem denominator thực tế evaluator khi pool nhỏ).
+Evaluator lọc eval rồi rank, do đó output phải giữ đủ 96 ảnh, không chỉ queue20.
+Secondary: false alarm theo light, defect-type accuracy và runtime/100 ảnh.
 
-## 08 · Reproduce & tests
+Chốt threshold và B trước official evaluation, không thay testset hoặc đọc gt/ trong pipeline.
+Protocol chi tiết trong metric_contract.md. Chưa có CI chính thức do thiếu GT; khi có nhãn phải báo
+numerator/denominator và độ bất định phù hợp, không suy rộng từ mẫu nhỏ.
+
+## 06. Slices và failure cases
+
+reports/t02_slices.csv là số action theo split/light; không phải false alarm rate khi thiếu GT.
+Ảnh minh họa ở demo/t02_examples.png.
+
+- img_09_2: mờ mạnh, reviewer chọn RECAPTURE. Laplacian xếp rất cao vì thiếu cạnh và chi tiết.
+- img_04_3: chạng vạng, ban đầu chọn escalate; sau khi kiểm tra ảnh gốc đã cập nhật KEEP vì còn nhận biết được xe, người và làn đường.
+- img_12_0: chạng vạng nhưng hình người/xe còn rõ, reviewer giữ KEEP. Chỉ nhìn độ sáng có thể loại nhầm.
+- img_15_3: thiếu sáng làm mất chi tiết; reviewer chọn RECAPTURE.
+
+Failure bắt buộc của đề: ảnh đêm hữu ích có thể bị báo lỗi; camera mềm làm giảm sharpness;
+glare cục bộ có thể bị bỏ sót nếu tile quá lớn hoặc vùng biển số quá nhỏ.
+PoC group normalization và local saturation nhắm tới các lỗi này nhưng chưa chứng minh đã giải quyết chúng.
+Không tự suy ra defect_type GT từ ID hay từ việc reviewer KEEP/RECAPTURE.
+
+## 07. Human review và quyết định
+
+reports/reviewed_images.csv lưu 20 quyết định: 11 KEEP, 9 RECAPTURE; escalation đã được xử lý sau kiểm tra ảnh gốc.
+Tên reviewer theo yêu cầu người học; giữ các quyết định đã nhập và bổ sung các ô còn thiếu theo yêu cầu.
+Không dùng file này làm GT chính thức. Note chỉ mô tả chất lượng ảnh.
+
+Edit/reject cần override hợp lệ và lý do; approve giữ action; escalate tạo REVIEW; skip chưa hoàn thành.
+Override không đổi score. predictions_raw.csv giữ trạng thái ban đầu, review_results.csv giữ kết quả review.
+Audit JSONL append-only lưu actor, image_id, before/after, note và file nguồn.
+Review import gắn checksum manifest, không tự áp sang hidden input khác checksum.
+Một phiên review mới không được làm tổng số ảnh được review vượt budget20.
+
+## 08. Tái lập và kiểm thử
 
 ```bash
-make setup          # hoặc: python -m venv .venv && pip install -r requirements.txt
-python -m src.main --input fixtures/<track> --config configs/lab.yaml --output out/ --offline --seed 42
-python -m src.evaluate --track t__ --pred out/<file> --out reports/metrics_poc.json
-pytest -q
+make setup
+make verify
+make baseline TRACK=t02 OUT=out/t02
+make run TRACK=t02 OUT=out/t02
+make test
+.venv/bin/python -m tools.t02_summary
 ```
 
-- Output của `pytest -q`: ____
-- Máy / CPU / OS / Python: ____ · git sha: ____
+OpenCV được để tùy chọn do thuật toán không dùng cv2; tránh lỗi cài gói trên máy hiện tại.
+requirements-t02.lock.txt lưu phiên bản môi trường đã chạy, dành cho môi trường tương thích.
+Lệnh ./run.sh t02 chạy PoC/test và chỉ evaluate khi có overlay.
 
-## 09 · Limitations & ethics
+Tests kiểm dev-only calibration, dark/glare signal, path/ID/ảnh lỗi, review invalid,
+score bất biến sau override, escalation HOLD, review sai manifest bị bỏ qua và idempotency.
+Kết quả suite cuối cùng ghi trong PROGRESS.md. Test cần GT được skip đúng thiết kế.
+Machine, CPU, Python, runtime, seed, config hash và git SHA lấy từ run_info.json của mỗi run.
+SHA hiện tại là commit gốc, không thay cho bằng chứng commit các thay đổi chưa commit.
 
-- Rủi ro pháp lý / PII / license: ____
-- Điều chưa biết; false alarms; nếu scale 10× thì sao: ____
-- Không tuyên bố "đạt GDPR / luật Việt Nam" từ checklist tự động; giả định cần DPO/legal xác nhận: ____
-- Kế hoạch cải tiến: ____
+## 09. Giới hạn và hướng cải tiến
 
-## 10 · Team contribution
+Tập synthetic nhỏ, heuristic chưa kiểm chứng trên ảnh thực hoặc camera mới. Ảnh có texture thấp tự nhiên
+có thể bị nhầm blur; đèn/biển báo sáng có thể bị nhầm glare; JPEG proxy nhạy với cạnh hình học.
+Group ít mẫu fallback global, không bảo đảm calibration tốt cho night/camera mới.
+Cần GT/hidden eval, ablation và 10 ảnh out-of-domain được phép dùng trước khi kết luận production-ready.
+Không tuyên bố tuân thủ pháp luật từ pipeline QC, không đưa ảnh người thật chưa được phép lên repo/cloud.
 
-**Bảng 2 · Individual contribution evidence** (đối chiếu với `git shortlog -sne --all` và `reports/team_contributions.csv`)
+## 10. Đóng góp
 
-| Học viên | Git author/email | Module / vai trò | Commit SHA / diff chứng minh | Trình bày? |
-|---|---|---|---|---|
-| Member 1 | | Integration / CLI | | |
-| Member 2 | | Data + GT | | |
-| Member 3 | | Core algorithm | | |
-| Member 4 | | Metric + tests | | |
-| Member 5 | | Review queue + report | | |
-| Member 6 (nếu có) | | Research / ablation / debate | | |
+Trần Xuân Bắc thực hiện cá nhân. Bằng chứng commit/email/tag cần người học xác nhận và bổ sung;
+không dùng commit tác giả starter làm bằng chứng đóng góp cá nhân, không tạo commit/tag giả.
+Chi tiết file ở reports/team_contributions.csv. Phần còn lại trong PROGRESS.md.
 
-## 11 · References
+## 11. References
 
-| URL | Ngày xem | 1–2 dòng ý nghĩa (không chép nguyên văn) |
-|---|---|---|
-| | | |
+Tài liệu đã đối chiếu ngày 14/11/2026:
 
----
-
-**Bảng 3 · Checklist chốt khi nộp**
-
-- [ ] Link repo và tag cuối cùng trong README; input mẫu không chứa PII thật.
-- [ ] Đúng 1 lệnh run, 1 lệnh evaluate, 1 lệnh tests; không cần download khi chạy.
-- [ ] Có baseline/PoC metrics, ≥1 failure case, reviewer evidence, decision log.
-- [ ] Có license/source provenance, data splits, seed, offline environment, GT/eval N.
-- [ ] Mỗi thành viên có ≥1 commit thực chất và được nêu minh bạch trong bảng trên.
+- [OpenCV Laplace Operator](https://docs.opencv.org/4.13.0/d5/db5/tutorial_laplace_operator.html): cơ sở toán tử đạo hàm bậc hai; implementation dùng helper scipy của repo, không cần cv2.
+- [NumPy quantile](https://numpy.org/doc/stable/reference/generated/numpy.quantile.html): định nghĩa phân vị dùng trong hiệu chỉnh dev; không phải nhãn lỗi.
+- [Pillow ImageFilter](https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html): các bộ lọc ảnh, tham khảo khi xây corruption/test; không coi là chứng minh hiệu quả QC.
+- docs/tracks/T02.md; src/metrics/tracks.py::eval_t02; src/common/image_ops.py: contract, metric và feature helper của lab.

@@ -1,0 +1,13 @@
+run,split,light,n,keep,recapture,review
+baseline,dev,day,36,33,3,0
+baseline,dev,dusk,16,15,1,0
+baseline,dev,night,4,3,1,0
+baseline,eval,day,20,18,2,0
+baseline,eval,dusk,4,2,2,0
+baseline,eval,night,16,15,1,0
+poc,dev,day,36,23,13,0
+poc,dev,dusk,16,11,5,0
+poc,dev,night,4,0,4,0
+poc,eval,day,20,14,6,0
+poc,eval,dusk,4,2,2,0
+poc,eval,night,16,2,14,0

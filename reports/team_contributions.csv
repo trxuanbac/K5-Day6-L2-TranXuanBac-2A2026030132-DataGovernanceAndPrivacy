@@ -1,6 +1,2 @@
 member,git_author_name,git_email,role,modules_files,commit_shas,evidence_note,presenter
-Member 1,,,Lead / Integrator,src/main.py; configs/,,,
-Member 2,,,Data & fixtures,fixtures/; tools/,,,
-Member 3,,,Core algorithm,src/pipeline.py,,,
-Member 4,,,QA / metric,tests/; reports/metrics_*.json,,,
-Member 5,,,Human review + report,reports/group_report.md; demo/,,,
+Trần Xuân Bắc,Xuân Bắc,Bxuan964@gmail.com,Individual learner,src/t02.py;src/pipeline.py;src/baseline_t02.py;tests/test_t02_pipeline.py;reports/;demo/,,See git log for implementation commit; GT and OOD evaluation pending,

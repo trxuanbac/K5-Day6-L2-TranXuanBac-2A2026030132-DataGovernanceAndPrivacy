@@ -32,3 +32,6 @@ __pycache__/
 .DS_Store
 .idea/
 .vscode/
+
+# User-provided out-of-domain images stay local
+data/ood/

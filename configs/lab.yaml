@@ -2,15 +2,26 @@
 # Group config — EDIT ME (one per group). Values here override
 # the track defaults loaded from `track_config`.
 # ============================================================
-group_id: G00                     # e.g. G07
-owner: "TODO: tên người ký duyệt (role)"   # mandatory for every Decision
-track_config: tracks/t02.yaml     # pick your challenge: tracks/t01.yaml ... tracks/t14.yaml
+group_id: G06                     # Temporary; replace with the assigned group ID
+owner: "Trần Xuân Bắc"            # mandatory for every Decision
+track_config: tracks/t02.yaml     # Raw QC Triage: blur, darkness and glare
 track: t02                        # must match track_config
-input: fixtures/t02_raw_qc        # or data/real/... if your instructor provided a real pack
+input: fixtures/t02_raw_qc        # synthetic images and metadata
 output: out/
 seed: 42
 offline: true                     # demo/eval must not touch the network
 strict_provenance: true           # fail if manifest.csv hashes do not match
 
 # Track params (merged over track_config.params). Freeze before evaluation.
-params: {}
+params:
+  budget: 20
+  # Freeze before official evaluation; normalization uses dev only.
+  blur_quantile: 0.25
+  min_group_size: 6
+  dark_mean: 35.0
+  dark_fraction: 0.75
+  glare_fraction: 0.20
+  compression_ratio: 1.8
+  defect_threshold: 0.5
+  review_import: reports/reviewed_images.csv
+  review_manifest_sha256: 7faea054fdc348e363d98b406e1f762b01cc158d5b1bc0584e163069dacd4c79

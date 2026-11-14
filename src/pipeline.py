@@ -35,6 +35,9 @@ def load(ctx: RunContext) -> dict:
         if ctx.config.get("strict_provenance", True):
             raise ValueError(f"provenance check failed ({len(problems)} problems), first: {problems[:3]}")
     data = {"manifest": pd.read_csv(manifest) if manifest.exists() else None}
+    if ctx.track == "t02":
+        from .t02 import metadata
+        data["images"] = metadata(ctx)
     # TODO: load the tables/images your track needs, e.g.
     # data["images"] = pd.read_csv(ctx.input_dir / "images.csv")
     return data
@@ -42,6 +45,9 @@ def load(ctx: RunContext) -> dict:
 
 # ---------------------------------------------------------------- 02 process
 def process(ctx: RunContext, data: dict) -> pd.DataFrame:
+    if ctx.track == "t02":
+        from .t02 import process as process_t02
+        return process_t02(ctx, data["images"])
     spec = get_track(ctx.track)
     raise NotImplementedError(
         f"Implement process() for {spec.track} ({spec.title}). It must produce a DataFrame with at least "
@@ -52,6 +58,9 @@ def process(ctx: RunContext, data: dict) -> pd.DataFrame:
 # ---------------------------------------------------------------- 03 rank
 def rank(ctx: RunContext, scored: pd.DataFrame) -> pd.DataFrame:
     """Default: top-B by `score`. Adapt id/score/reason columns to your track."""
+    if ctx.track == "t02":
+        from .t02 import rank as rank_t02
+        return rank_t02(ctx, scored)
     budget = int(ctx.param("budget", 20))
     if "score" not in scored.columns:
         raise ValueError("rank(): process() output needs a numeric `score` column (higher = review first), "
@@ -69,6 +78,9 @@ def review(ctx: RunContext, scored: pd.DataFrame, queue: pd.DataFrame) -> pd.Dat
     TODO: decide what an `edit` / `reject` means for your track and apply it
     (e.g. via common.review.apply_overrides), logging every change to ctx.audit.
     """
+    if ctx.track == "t02":
+        from .t02 import review as review_t02
+        return review_t02(ctx, scored, queue)
     reviewed_path = ctx.output_dir / "review_queue_reviewed.csv"
     if reviewed_path.exists():
         reviewed = load_review_decisions(reviewed_path)
@@ -79,6 +91,9 @@ def review(ctx: RunContext, scored: pd.DataFrame, queue: pd.DataFrame) -> pd.Dat
 
 # ---------------------------------------------------------------- 05 decide
 def decide(ctx: RunContext, final: pd.DataFrame) -> Decision:
+    if ctx.track == "t02":
+        from .t02 import decide as decide_t02
+        return decide_t02(ctx, final)
     # TODO: replace with your policy (thresholds frozen BEFORE looking at eval results)
     return Decision(status="HOLD", reason_code="POLICY_NOT_IMPLEMENTED", reason="Decision policy not implemented yet",
                     owner=ctx.config.get("owner", "TODO-owner"), scope=ctx.track)
@@ -90,6 +105,10 @@ def run(ctx: RunContext) -> None:
     scored = process(ctx, data)
     ctx.stats["n_items"] = len(scored)
     queue = rank(ctx, scored)
+    if ctx.track == "t02":
+        from .t02 import finish
+        finish(ctx, scored, queue)
+        return
     final = review(ctx, scored, queue)
     final[spec.pred_columns + [c for c in final.columns if c not in spec.pred_columns]].to_csv(ctx.out(spec.pred_file), index=False)
     write_decision(decide(ctx, final), ctx.out("decision.json"), ctx.out("decision_log.csv"))

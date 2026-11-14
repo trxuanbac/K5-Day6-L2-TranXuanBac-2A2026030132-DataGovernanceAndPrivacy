@@ -1,0 +1,34 @@
+{
+  "official_metrics_status": "PENDING_INSTRUCTOR_GT",
+  "warning": "Descriptive counts only, not recall, precision or correctness.",
+  "runs": {
+    "baseline": {
+      "n_items": 96,
+      "n_reviewed": 20,
+      "action_counts": {
+        "KEEP": 86,
+        "RECAPTURE": 10
+      },
+      "runtime_seconds": 0.3689,
+      "runtime_per_100_items_s": 0.38427083333333334,
+      "model_action_counts": {
+        "KEEP": 75,
+        "RECAPTURE": 21
+      }
+    },
+    "poc": {
+      "n_items": 96,
+      "n_reviewed": 20,
+      "action_counts": {
+        "KEEP": 52,
+        "RECAPTURE": 44
+      },
+      "runtime_seconds": 0.3003,
+      "runtime_per_100_items_s": 0.3128125,
+      "model_action_counts": {
+        "RECAPTURE": 53,
+        "KEEP": 43
+      }
+    }
+  }
+}

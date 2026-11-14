@@ -7,6 +7,16 @@ vấn đề, baseline, thuật toán, đánh giá trung thực, human-in-the-loo
 > Repo **không** chứa lời giải. `src/pipeline.py` là file nhóm sở hữu; mọi thuật toán (kể cả baseline) do nhóm tự cài.
 > Tài liệu học tập, không thay tư vấn pháp lý.
 
+## Bài cá nhân T02 đang triển khai
+
+- Owner: Trần Xuân Bắc, cấu hình G06.
+- Hướng dẫn: [docs/T02_RUN.md](docs/T02_RUN.md).
+- Báo cáo: [reports/group_report.md](reports/group_report.md).
+- Tiến độ: [reports/PROGRESS.md](reports/PROGRESS.md).
+- Demo: [demo/T02_SHOWCASE.md](demo/T02_SHOWCASE.md).
+- `make baseline TRACK=t02 OUT=out/t02` hiện chạy baseline Laplacian của bài T02.
+- OpenCV là tùy chọn; thuật toán T02 hiện tại không import cv2.
+
 ## 1. Quickstart (≤ 5 phút, chạy offline)
 
 ```bash
