@@ -16,7 +16,7 @@
 | PoC | Blur theo camera/light nếu dev group >=6, fallback global; dark, glare ROI và blockiness |
 | Threshold | dark_mean=35; dark_fraction=.75; glare_fraction=.20; compression_ratio=1.8; defect_threshold=.5 |
 | Ranking | Score liên tục, descending; không sửa score bằng review |
-| Review | 20 ảnh của queue Laplacian cũ, giữ cố định cho hai run; không dùng làm gold heldout |
+| Review | Mỗi run review top20 của ranking tương ứng; PoC dùng poc_reviewed_images.csv; baseline dùng reviewed_images.csv; không dùng làm gold heldout |
 | Slices | light=day/dusk/night; defect_type từ GT khi có; camera hỗ trợ phân tích nội bộ |
 | Uncertainty | Báo numerator/denominator, từng failure case, không suy rộng khi N nhỏ; chưa có CI GT |
 | Trạng thái | Chưa xem GT; official metric pending; tham số ban đầu được khai báo trước official eval |

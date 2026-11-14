@@ -158,3 +158,8 @@ Tập này có cảnh mưa, ảnh đen trắng và phơi sáng dài; giới hạ
 Kết quả chạy descriptive ở t02_ood_run_summary.json. Đã xem và review 10 ảnh theo tiêu chí dùng cho nhận diện phương tiện: 5 KEEP, 5 RECAPTURE; 6 đề xuất model được đổi sau review. Không coi đây là GT độc lập của giảng viên.
 Failure thực tế: ood_02 báo glare do bầu trời trắng nhưng phần đường còn dùng được; ood_04/06/07/08/10 bị model KEEP dù mất nét cục bộ hoặc xe thành vệt phơi sáng. Không tune lại threshold sau khi thấy kết quả.
 Ảnh giữ local trong data/ood/, không đưa vào Git.
+
+## Đối chiếu T02.md sau hoàn thiện
+
+PoC đã review đúng top20 hiện tại, file reports/poc_reviewed_images.csv. Baseline giữ phiên review cũ trong reviewed_images.csv; mỗi phiên có đúng budget20, khác tập ảnh do ranking khác nhau. Các diễn giải phía trên về cùng một tập review là lịch sử phiên đầu, được thay thế bằng protocol này. Score không đổi sau review.
+Phân tích đủ ba failure mode có ảnh và số liệu tại [t02_failure_analysis.md](t02_failure_analysis.md). Có lỗi chưa giải quyết được: ảnh đêm hữu ích bị dark score loại và fallback cam_B/dusk. Không tuyên bố PoC đã xử lý hết failure modes.

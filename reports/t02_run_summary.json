@@ -20,11 +20,11 @@
       "n_items": 96,
       "n_reviewed": 20,
       "action_counts": {
-        "KEEP": 52,
-        "RECAPTURE": 44
+        "KEEP": 50,
+        "RECAPTURE": 46
       },
-      "runtime_seconds": 0.3003,
-      "runtime_per_100_items_s": 0.3128125,
+      "runtime_seconds": 0.3417,
+      "runtime_per_100_items_s": 0.3559375,
       "model_action_counts": {
         "RECAPTURE": 53,
         "KEEP": 43

@@ -6,7 +6,7 @@ baseline,eval,day,20,18,2,0
 baseline,eval,dusk,4,2,2,0
 baseline,eval,night,16,15,1,0
 poc,dev,day,36,23,13,0
-poc,dev,dusk,16,11,5,0
+poc,dev,dusk,16,9,7,0
 poc,dev,night,4,0,4,0
 poc,eval,day,20,14,6,0
 poc,eval,dusk,4,2,2,0

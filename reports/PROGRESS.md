@@ -33,3 +33,6 @@ Thống kê counts/runtime không phải độ chính xác. Chưa khẳng địn
 - [x] Commit triển khai: `780c1e9`, author Xuân Bắc <Bxuan964@gmail.com>. Chưa push hoặc tạo tag nộp bài.
 
 - [x] Kiểm tra cuối: pytest exit 0, 14 fixture manifests hợp lệ; manifest bộ 10 ảnh OOD hợp lệ; 10 review có đủ lý do.
+
+- [x] Hoàn thiện review đúng 20/20 ảnh queue PoC; baseline và PoC mỗi phiên budget20.
+- [x] Ba failure modes bắt buộc có ảnh, feature, raw prediction và root cause: reports/t02_failure_analysis.md.

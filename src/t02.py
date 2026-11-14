@@ -162,7 +162,7 @@ def review(ctx, scored, queue):
     """Review changes actions only; ranking scores remain frozen for fair evaluation."""
     final = scored.copy()
     paths = [ctx.output_dir / 'review_queue_reviewed.csv']
-    imported = ctx.param('review_import')
+    imported = ctx.param('review_import_poc', ctx.param('review_import')) if ctx.run_name == 'poc' else ctx.param('review_import')
     if imported and Path(imported) != paths[0]:
         expected = ctx.param('review_manifest_sha256')
         manifest = ctx.input_dir / 'manifest.csv'

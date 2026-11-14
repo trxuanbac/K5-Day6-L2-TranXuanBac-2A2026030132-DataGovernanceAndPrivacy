@@ -25,3 +25,4 @@ params:
   defect_threshold: 0.5
   review_import: reports/reviewed_images.csv
   review_manifest_sha256: 7faea054fdc348e363d98b406e1f762b01cc158d5b1bc0584e163069dacd4c79
+  review_import_poc: reports/poc_reviewed_images.csv
