@@ -24,7 +24,7 @@
 - [x] Đã tải 10 ảnh đường phố CC0 từ Wikimedia Commons và chạy OOD với calibration cố định.
 - [x] Đã xem và review 10 ảnh OOD theo yêu cầu: 5 KEEP, 5 RECAPTURE; đã áp override và ghi audit. Chưa có GT độc lập để báo accuracy.
 - [x] Kiểm tra Git author/email và repo URL từ cấu hình thực tế.
-- [ ] Tag nộp bài theo quy định lớp; chưa tạo khi còn chờ GT.
+- [x] Đóng băng bản nộp hiện tại bằng tag final-24h; metric chính thức vẫn chờ GT.
 - [x] Bổ sung calibration cố định và tools/prepare_t02_ood.py.
 - [x] Nguồn ảnh ngoài miền đã bổ sung trong reports/t02_ood_sources.csv.
 
@@ -36,3 +36,6 @@ Thống kê counts/runtime không phải độ chính xác. Chưa khẳng địn
 
 - [x] Hoàn thiện review đúng 20/20 ảnh queue PoC; baseline và PoC mỗi phiên budget20.
 - [x] Ba failure modes bắt buộc có ảnh, feature, raw prediction và root cause: reports/t02_failure_analysis.md.
+
+- [x] Có 5 slide HTML offline và bản Markdown, đã kiểm tra hiển thị từng slide.
+- [x] Hướng dẫn nộp và chấm lại với GT: SUBMISSION.md.

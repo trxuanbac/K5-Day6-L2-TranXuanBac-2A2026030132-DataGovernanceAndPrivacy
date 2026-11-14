@@ -7,9 +7,11 @@ vấn đề, baseline, thuật toán, đánh giá trung thực, human-in-the-loo
 > Repo **không** chứa lời giải. `src/pipeline.py` là file nhóm sở hữu; mọi thuật toán (kể cả baseline) do nhóm tự cài.
 > Tài liệu học tập, không thay tư vấn pháp lý.
 
-## Bài cá nhân T02 đang triển khai
+## Bài cá nhân T02 — bản nộp
 
 - Owner: Trần Xuân Bắc, cấu hình G06.
+- Tag nộp: [final-24h](https://github.com/trxuanbac/K5-Day6-L2-TranXuanBac-2A2026030132-DataGovernanceAndPrivacy/tree/final-24h). Hướng dẫn: [SUBMISSION.md](SUBMISSION.md).
+- 5 slide offline: [demo/T02_SLIDES.html](demo/T02_SLIDES.html). Metric chính thức chờ GT giảng viên.
 - Hướng dẫn: [docs/T02_RUN.md](docs/T02_RUN.md).
 - Báo cáo: [reports/group_report.md](reports/group_report.md).
 - Tiến độ: [reports/PROGRESS.md](reports/PROGRESS.md).
