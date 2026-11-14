@@ -1,0 +1,11 @@
+image_id,model_action,pred_action,review_note,changed
+ood_02,RECAPTURE,KEEP,"Vùng trắng chủ yếu là bầu trời; xe và vạch đường vẫn nhận biết được, không cần loại cả ảnh vì vùng sáng phía trên.",True
+ood_03,KEEP,KEEP,"Bóng râm và tông màu tối nhưng biên đường, công trình và các xe vẫn còn phân biệt được; giữ cho nhận diện tổng thể.",False
+ood_07,KEEP,RECAPTURE,Đèn xe thành các vệt liên tục do phơi sáng dài; không thể xác định rõ từng phương tiện để gán nhãn.,True
+ood_09,KEEP,KEEP,"Ảnh tối và đen trắng nhưng xe đỗ, mặt đường và biên công trình còn nhận biết được; giữ cho nhận diện hình dạng, không dùng suy luận màu sắc.",False
+ood_08,KEEP,RECAPTURE,Cảnh tĩnh còn nét nhưng phương tiện thành vệt sáng và quá nhỏ; không đủ chi tiết để gán nhãn xe tại từng thời điểm.,True
+ood_05,KEEP,KEEP,Mặt đường và công trình còn rõ; cảnh vắng phương tiện không phải lỗi chất lượng ảnh.,False
+ood_04,KEEP,RECAPTURE,Xe đạp tiền cảnh rõ nhưng xe phía sau mất nét mạnh; không phù hợp nếu cần gán nhãn đầy đủ phương tiện trong cảnh.,True
+ood_10,KEEP,RECAPTURE,Vệt đèn kéo dài do phơi sáng làm mất hình dạng xe chuyển động; cần ảnh chụp với thời gian phơi sáng ngắn hơn cho bài toán gán nhãn phương tiện.,True
+ood_01,KEEP,KEEP,"Đường, xe và người còn phân biệt được; đủ sáng và đủ thông tin cho nhận diện tổng thể.",False
+ood_06,KEEP,RECAPTURE,"Phơi sáng dài làm xe chuyển động thành vệt sáng, không còn đủ hình dạng để gán nhãn xe tại một thời điểm.",True

@@ -1,0 +1,17 @@
+{
+  "n_items": 10,
+  "runtime_seconds": 0.3919,
+  "calibration": "Frozen from original fixture dev; no OOD fitting",
+  "review_status": "10 visual review decisions applied; not independent instructor GT",
+  "n_reviewed": 10,
+  "review_action_counts": {
+    "KEEP": 5,
+    "RECAPTURE": 5
+  },
+  "model_review_disagreements": 6,
+  "decision": "REWORK",
+  "actions_before_review": {
+    "KEEP": 9,
+    "RECAPTURE": 1
+  }
+}

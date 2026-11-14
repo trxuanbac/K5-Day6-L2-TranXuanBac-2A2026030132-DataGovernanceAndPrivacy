@@ -149,3 +149,12 @@ Tài liệu đã đối chiếu ngày 14/11/2026:
 - [NumPy quantile](https://numpy.org/doc/stable/reference/generated/numpy.quantile.html): định nghĩa phân vị dùng trong hiệu chỉnh dev; không phải nhãn lỗi.
 - [Pillow ImageFilter](https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html): các bộ lọc ảnh, tham khảo khi xây corruption/test; không coi là chứng minh hiệu quả QC.
 - docs/tracks/T02.md; src/metrics/tracks.py::eval_t02; src/common/image_ops.py: contract, metric và feature helper của lab.
+
+## Bổ sung kiểm tra ảnh web ngoài miền
+
+Đã chuẩn bị 10 ảnh thật CC0 từ Wikimedia Commons, 5 day/5 night; nguồn, tác giả, license và hash từng ảnh ở t02_ood_sources.csv.
+Ảnh đã resize tối đa 1024px, không inject blur/dark/glare. Dùng calibration dev gốc, không fit OOD.
+Tập này có cảnh mưa, ảnh đen trắng và phơi sáng dài; giới hạn ở stress test, không coi là camera hành trình tiêu chuẩn.
+Kết quả chạy descriptive ở t02_ood_run_summary.json. Đã xem và review 10 ảnh theo tiêu chí dùng cho nhận diện phương tiện: 5 KEEP, 5 RECAPTURE; 6 đề xuất model được đổi sau review. Không coi đây là GT độc lập của giảng viên.
+Failure thực tế: ood_02 báo glare do bầu trời trắng nhưng phần đường còn dùng được; ood_04/06/07/08/10 bị model KEEP dù mất nét cục bộ hoặc xe thành vệt phơi sáng. Không tune lại threshold sau khi thấy kết quả.
+Ảnh giữ local trong data/ood/, không đưa vào Git.

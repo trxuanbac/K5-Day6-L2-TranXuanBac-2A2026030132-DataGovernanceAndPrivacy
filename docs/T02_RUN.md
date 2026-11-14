@@ -86,4 +86,16 @@ Xem demo/T02_SHOWCASE.md và demo/t02_examples.png. Ảnh từng escalate đã �
 ```
 
 Công cụ giữ ảnh ở data/ood/ (gitignored), tạo metadata/manifest và sao chép calibration dev gốc.
-Không fit lại trên ảnh OOD. Review từng ảnh và báo sai sót; chưa có ảnh nên chưa báo kết quả OOD.
+Không fit lại trên ảnh OOD. Bộ web bên dưới đã được review; quyết định và lý do ở reports/t02_ood_reviewed.csv.
+
+## Bộ ảnh web đã chuẩn bị
+
+10 ảnh CC0 ở `data/ood/t02_web/images/`, nguồn/tác giả/checksum ở `reports/t02_ood_sources.csv`.
+
+```bash
+.venv/bin/python -m src.main --config data/ood/t02_web/lab_ood.yaml --offline --seed 42
+open out/t02/ood/contact_sheet.html
+```
+
+Bộ ảnh có ảnh đường phố ban ngày, cảnh mưa, ảnh đen trắng và phơi sáng đêm; đây là stress test ngoài miền, không đại diện đầy đủ cho camera hành trình.
+Ảnh và config bộ này được giữ local trong thư mục gitignored.

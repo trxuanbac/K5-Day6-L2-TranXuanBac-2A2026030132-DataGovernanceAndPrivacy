@@ -21,12 +21,15 @@
 
 - [x] Đã xem ảnh gốc img_04_3, cập nhật KEEP kèm lý do; decision chuyển REWORK do còn ảnh cần chụp lại.
 - [ ] GT/hidden eval giảng viên để chấm Recall@20, Precision@20 và failure slices chính thức.
-- [ ] Kiểm tra 10 ảnh out-of-domain được phép sử dụng theo yêu cầu +24h; chưa có bộ này.
+- [x] Đã tải 10 ảnh đường phố CC0 từ Wikimedia Commons và chạy OOD với calibration cố định.
+- [x] Đã xem và review 10 ảnh OOD theo yêu cầu: 5 KEEP, 5 RECAPTURE; đã áp override và ghi audit. Chưa có GT độc lập để báo accuracy.
 - [x] Kiểm tra Git author/email và repo URL từ cấu hình thực tế.
 - [ ] Tag nộp bài theo quy định lớp; chưa tạo khi còn chờ GT.
 - [x] Bổ sung calibration cố định và tools/prepare_t02_ood.py.
-- [ ] Ảnh ngoài miền: người học xác nhận chưa có nguồn ảnh.
+- [x] Nguồn ảnh ngoài miền đã bổ sung trong reports/t02_ood_sources.csv.
 
 Thống kê counts/runtime không phải độ chính xác. Chưa khẳng định PoC tốt hơn baseline.
 
 - [x] Commit triển khai: `780c1e9`, author Xuân Bắc <Bxuan964@gmail.com>. Chưa push hoặc tạo tag nộp bài.
+
+- [x] Kiểm tra cuối: pytest exit 0, 14 fixture manifests hợp lệ; manifest bộ 10 ảnh OOD hợp lệ; 10 review có đủ lý do.
